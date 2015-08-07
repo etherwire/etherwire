@@ -1,11 +1,17 @@
 import requests
 import json
 import datetime
+from django.conf import settings
 
 class RPC_Client(object):
 
     def __init__(self, *args, **kwargs):
-        self.url = kwargs['url']
+        if 'url' in kwargs:
+            self.url = kwargs['url']
+        elif hasattr(settings, "RPC_URL"):
+            self.url = settings.RPC_URL
+        else:
+            raise Error("No URL provided for RPC client.")
         self.request_id = 1        
         self.headers = {'context-type': 'application/json'}
     
@@ -18,7 +24,7 @@ class RPC_Client(object):
         else:
             block_id = hex(block_id)
         return self.send_request(method, [block_id, return_transaction_objects])
-    
+
     def send_request(self, method, params):
         payload = {
           "jsonrpc": "2.0",

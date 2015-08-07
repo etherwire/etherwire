@@ -63,11 +63,12 @@ class Block(models.Model):
         self.number = int(block[u"number"], 16)
         self.gas_limit = int(block["gasLimit"], 16)
         self.gas_used = int(block["gasUsed"], 16)
+        self.logs_bloom = block["logsBloom"]
         self.nonce = block["nonce"]
         self.transactions_root = block["transactionsRoot"]
-        self.block_hash = block["hash"]
+        self.blockhash = block["hash"]
         self.uncles_hash = block["sha3Uncles"]
-        self.parent_hash = block["parentHash"]
+        self.prevhash = block["parentHash"]
         self.extra_data = block["extraData"]
         self.miner = block["miner"]
         self.state_root = block["stateRoot"]

@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blockchain',
-    'rest_framework'
+    'rest_framework',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,9 +86,7 @@ WSGI_APPLICATION = 'etherwire.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config()
-}
+DATABASES = {'default': dj_database_url.config()}
 
 
 # Internationalization
@@ -108,3 +107,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticroot'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+RPC_URL = "http://54.174.34.15:8402"
