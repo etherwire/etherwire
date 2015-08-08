@@ -30,6 +30,15 @@ class Command(BaseCommand):
             print "Revising block %d (%s)" % (revising_num, revising_parent)
             new_block = Block(block_dict=compare_block)
             new_block.save()
+        print compare_block["hash"]
+        print db_hash
+        print int(compare_block["number"], 16)
+        print db_num
+        if compare_block["hash"] != db_hash:
+            (revising_num, revising_parent) = (db_num, db_parent)
+            self.stdout.write("Revising block %d (%s)" % (revising_num, revising_parent))
+            new_block = Block(block_dict=compare_block)
+            new_block.save()
             # check previous blocks
             while revising_parent != compare_block["parentHash"]:
                 revising_num = revising_num - 1
@@ -38,13 +47,14 @@ class Command(BaseCommand):
                 new_block = Block(block_dict=client.get_block(db_num))
                 new_block.save()
                 compare_block = self.client.get_block(revising_num)
+                db_parent = Block.objects.get(number=db_num).prevhash
+                new_block = Block(block_dict=client.get_block(db_num))
+                new_block.save()
         
         # find the latest block and update up to it
         latest_block_num = int(self.client.get_block("latest")["number"], 16)
         self.getBlocks(db_num + 1, latest_block_num)
-
         time.sleep(2)
-
 
     def handle(self, *args, **options):
         self.client = RPC_Client()
