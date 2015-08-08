@@ -25,6 +25,9 @@ SECRET_KEY = 'hz@l2i6h@n945^-=g_83z5+xk27p73d5egcm%tew4ti$k18z1m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if os.environ.get("RPC_URL"):
+    RPC_URL = os.environ.get("RPC_URL")
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -114,5 +117,3 @@ STATICFILES_DIRS = (
 )
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-RPC_URL = "http://54.174.34.15:8402"
